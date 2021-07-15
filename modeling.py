@@ -9,11 +9,11 @@ def build_model_top(input_shape):
   ## Extra layers we need to use to supplement the base model for classification
 
   ## Pre-mobilenet layers -> data augmentation and standaridation
-  data_augmentation = tf.keras.Sequential([
-  tf.keras.layers.experimental.preprocessing.RandomFlip('horizontal'),
-  tf.keras.layers.experimental.preprocessing.RandomRotation(0.2),
-])
-  mnv2_preprocess_input = tf.keras.applications.mobilenet_v2.preprocess_input
+#   data_augmentation = tf.keras.Sequential([
+#   tf.keras.layers.experimental.preprocessing.RandomFlip('horizontal'),
+#   tf.keras.layers.experimental.preprocessing.RandomRotation(0.2),
+# ])
+  # mnv2_preprocess_input = tf.keras.applications.mobilenet_v2.preprocess_input
   rescale = tf.keras.layers.experimental.preprocessing.Rescaling(1./127.5, offset= -1) 
 
   inp = tf.keras.layers.Input(shape=input_shape)
