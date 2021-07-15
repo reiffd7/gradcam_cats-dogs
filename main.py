@@ -125,6 +125,6 @@ if __name__ == '__main__':
                         validation_data=valid_gen,
                         callbacks=[lr_sched])
 
-    plot_precision_recall_accuracy(history)
+    plot_precision_recall_accuracy(history, total_training_steps)
 
     model.save(model_name)
