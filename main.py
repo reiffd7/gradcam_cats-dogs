@@ -4,7 +4,7 @@ import sys
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
-import albumentations as A
+# import albumentations as A
 from modeling import *
 from pre_processing import *
 
@@ -59,19 +59,19 @@ if __name__ == '__main__':
     print('Total # of Training Steps: {}'.format(total_training_steps))
 
     # Declare an augmentation pipeline
-    AUGMENTATIONS_TRAIN = A.Compose([
-        # A.HorizontalFlip(p=0.5),
-        # A.RandomBrightnessContrast(p=0.2),
-        A.RandomContrast(limit=0.2, p=0.5),
-        A.RandomBrightness(limit=0.9, p=0.5),
-        # A.RandomRotate90(p=0.5),
-        # A.HueSaturationValue(hue_shift_limit=5, sat_shift_limit=20,
-        #                    val_shift_limit=10, p=.9),
-        # A.ShiftScaleRotate(p=0.5)
-        # A.HueSaturationValue(p=0.6)
-    ])
+    # AUGMENTATIONS_TRAIN = A.Compose([
+    #     # A.HorizontalFlip(p=0.5),
+    #     # A.RandomBrightnessContrast(p=0.2),
+    #     A.RandomContrast(limit=0.2, p=0.5),
+    #     A.RandomBrightness(limit=0.9, p=0.5),
+    #     # A.RandomRotate90(p=0.5),
+    #     # A.HueSaturationValue(hue_shift_limit=5, sat_shift_limit=20,
+    #     #                    val_shift_limit=10, p=.9),
+    #     # A.ShiftScaleRotate(p=0.5)
+    #     # A.HueSaturationValue(p=0.6)
+    # ])
 
-    train_gen = DatasetSequence(X_train, y_train, BATCH_SIZE, AUGMENTATIONS_TRAIN)
+    train_gen = DatasetSequence(X_train, y_train, BATCH_SIZE)
     valid_gen = DatasetSequence(X_val, y_val, BATCH_SIZE)
 
     input_shape = IMG_SIZE
@@ -100,9 +100,9 @@ if __name__ == '__main__':
     models_dict = {'mobilenetv2': mobilenetv2, 
                 'efficientnetb0': efficient_netb0, 
                 'efficientnetb1': efficient_netb1,
-                'efficientnetb2': efficient_netb2,
-                'efficientnetb3': efficient_netb3,
-                'efficientnetb4': efficient_netb4,
+                # 'efficientnetb2': efficient_netb2,
+                # 'efficientnetb3': efficient_netb3,
+                # 'efficientnetb4': efficient_netb4,
                 'efficientnetb5': efficient_netb5,
                 }
 
