@@ -30,12 +30,12 @@ if __name__ == '__main__':
     ##  4 - Validation Path
     ##  5 - Project Name
     ##  6- Task Name
-    BATCH_SIZE = int(sys.argv[1])
-    EPOCHS = int(sys.argv[2])
-    TRAIN_PATH = sys.argv[3]
-    VAL_PATH = sys.argv[4]
-    BASE_MODEL_NAME = sys.argv[5]
-    PROJECT_NAME = sys.argv[6]
+    BATCH_SIZE = 25
+    EPOCHS = 50
+    TRAIN_PATH = '../cats-dogs-data/train_baseline_4000'
+    VAL_PATH = '../cats-dogs-data/val_1000'
+    BASE_MODEL_NAME = 'mobilenetv2'
+    PROJECT_NAME = 'caged_cats_model_improvement'
 
     SAMPLE_SIZE = len(os.listdir(TRAIN_PATH))
     TASK_NAME = BASE_MODEL_NAME + 'sample_size' + str(SAMPLE_SIZE) + 'batch' + str(BATCH_SIZE) + 'epochs' + str(EPOCHS)
@@ -108,7 +108,7 @@ if __name__ == '__main__':
 
     base_model = models_dict[BASE_MODEL_NAME]
 
-    model = build_model_bottom(inp, base_model, DROPOUT_RATE, True)
+    model = build_model_bottom(inp, base_model, DROPOUT_RATE, False)
 
     task = Task.init(project_name=PROJECT_NAME, task_name=TASK_NAME)
 
