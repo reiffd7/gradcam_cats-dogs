@@ -49,8 +49,8 @@ if __name__ == '__main__':
     model_name = 'models/{}_epochs{}_batch{}_sample_size{}_.h5'.format(BASE_MODEL_NAME, EPOCHS, BATCH_SIZE, SAMPLE_SIZE)
     class_info = {0: 'Cat', 1: 'Dog'}
 
-    X_train, y_train, train_files = manual_pre_process(TRAIN_PATH, 224, SAMPLE_SIZE)
-    X_val, y_val, val_files = manual_pre_process(VAL_PATH, 224, SAMPLE_SIZE)
+    X_train, y_train, train_files = manual_pre_process(TRAIN_PATH, 224)
+    X_val, y_val, val_files = manual_pre_process(VAL_PATH, 224)
 
     training_steps_per_epoch = X_train.shape[0]/BATCH_SIZE
     total_training_steps = EPOCHS * training_steps_per_epoch
