@@ -120,7 +120,7 @@ if __name__ == '__main__':
 
         model = build_model_bottom(inp, base_model, DROPOUT_RATE, False)
 
-        task = Task.init(project_name=PROJECT_NAME, task_name=TASK_NAME)
+       #  task = Task.init(project_name=PROJECT_NAME, task_name=TASK_NAME)
 
         lr_sched = polynomial_decay_schedule(initial_lr=1e-3, power=5.0, epochs=EPOCHS)
 

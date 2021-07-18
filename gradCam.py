@@ -138,7 +138,7 @@ def predict_and_interpret(img_path, model, model_name, layer_lst):
 
   pred_raw = model.predict(np.expand_dims(img, axis=0))[0][0]
   pred_raw_rounded = round(pred_raw, 2)
-  cat_pct = str(round((1 - pred_raw_rounded)*100), 1) + '%'
+  cat_pct = str(round((1 - pred_raw_rounded)*100, 1)) + '%'
   pred = decode_prediction(pred_raw)
   pred_label = class_info[pred]
 
