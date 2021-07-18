@@ -150,12 +150,12 @@ def predict_and_interpret(img_path, model, model_name, layer_lst):
   # plt.title(pred_label + ' ' + str(pred_raw))
   # ax = plt.subplot(1, 2, 2)
   fused = fuse_layers(layer_lst, model, img)
-
+  fileID = img_path.split('/')[2].split('.')[0]
   plt.imshow(fused)
   plt.axis('off')
-  title = cat_pct + ' Cat - ' + model_name
+  title = cat_pct + ' Cat - ' + model_name + ' extra training imgs'
   plt.title(title)
 
   # plt.title('block_4_expand_relu')
   plt.tight_layout()
-  plt.savefig(img_path.split('.')[0] + model_name + '_gradCAM.png')
+  plt.savefig('CAMs/' + fileID + model_name + '_gradCAM.png')
