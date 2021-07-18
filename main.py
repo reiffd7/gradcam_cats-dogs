@@ -33,13 +33,13 @@ if __name__ == '__main__':
     ##  5 - Project Name
     ##  6- Task Name
     BATCH_SIZE = 25
-    EPOCHS = 50
-    DATA_PATH = '../cats-dogs-data/train_baseline_4000'
+    EPOCHS = 25
+    DATA_PATH = '../cats-dogs-data/train'
     # VAL_PATH = '../cats-dogs-data/val_1000'
     BASE_MODEL_NAME = 'mobilenetv2'
     PROJECT_NAME = 'caged_cats_model_improvement'
 
-    SAMPLE_SIZE = 5000
+    SAMPLE_SIZE = 1000
 
 
     TASK_NAME = BASE_MODEL_NAME + 'sample_size' + str(SAMPLE_SIZE) + 'batch' + str(BATCH_SIZE) + 'epochs' + str(EPOCHS)
