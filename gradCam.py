@@ -153,9 +153,9 @@ def predict_and_interpret(img_path, model, model_name, layer_lst):
   fileID = img_path.split('/')[2].split('.')[0]
   plt.imshow(fused)
   plt.axis('off')
-  title = cat_pct + ' Cat - ' + model_name + ' extra training imgs'
+  title = cat_pct + ' Cat - ' + str(model_name) + ' extra training imgs'
   plt.title(title)
 
   # plt.title('block_4_expand_relu')
   plt.tight_layout()
-  plt.savefig('CAMs/' + fileID + model_name + '_gradCAM.png')
+  plt.savefig('CAMs/' + fileID + str(model_name) + '_gradCAM.png')

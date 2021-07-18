@@ -51,8 +51,7 @@ if __name__ == '__main__':
     DROPOUT_RATE = 0.1
     LEARNING_RATE = 0.0001
 
-    model_name = 'models/{}_epochs{}_batch{}_sample_size{}_.h5'.format(BASE_MODEL_NAME, EPOCHS, BATCH_SIZE, SAMPLE_SIZE)
-    print('Model Name: ' + model_name)
+    model_name = 'models/{}_epochs{}_batch{}_sample_size{}_aug_{}.h5'.format(BASE_MODEL_NAME, EPOCHS, BATCH_SIZE, DATA_SAMPLE_SIZE, AUG_SAMPLE_SIZE)
     class_info = {0: 'Cat', 1: 'Dog'}
 
     X, y, files = manual_pre_process(DATA_PATH, AUG_PATH, 224, DATA_SAMPLE_SIZE, AUG_SAMPLE_SIZE)
