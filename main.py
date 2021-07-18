@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 # import albumentations as A
 from modeling import *
 from pre_processing import *
+from gradCam import *
+from sklearn.model_selection import train_test_split
 
 def plot_precision_recall_accuracy(history, total_training_steps):
     val_precision = history.history['val_precision_m']
@@ -32,12 +34,14 @@ if __name__ == '__main__':
     ##  6- Task Name
     BATCH_SIZE = 25
     EPOCHS = 50
-    TRAIN_PATH = '../cats-dogs-data/train_baseline_4000'
-    VAL_PATH = '../cats-dogs-data/val_1000'
+    DATA_PATH = '../cats-dogs-data/train_baseline_4000'
+    # VAL_PATH = '../cats-dogs-data/val_1000'
     BASE_MODEL_NAME = 'mobilenetv2'
     PROJECT_NAME = 'caged_cats_model_improvement'
 
-    SAMPLE_SIZE = len(os.listdir(TRAIN_PATH))
+    SAMPLE_SIZE = 5000
+
+
     TASK_NAME = BASE_MODEL_NAME + 'sample_size' + str(SAMPLE_SIZE) + 'batch' + str(BATCH_SIZE) + 'epochs' + str(EPOCHS)
 
     IMG_SIZE = (224, 224, 3)
@@ -50,8 +54,11 @@ if __name__ == '__main__':
     print('Model Name: ' + model_name)
     class_info = {0: 'Cat', 1: 'Dog'}
 
-    X_train, y_train, train_files = manual_pre_process(TRAIN_PATH, 224)
-    X_val, y_val, val_files = manual_pre_process(VAL_PATH, 224)
+    X, y, files = manual_pre_process(DATA_PATH, 224, SAMPLE_SIZE)
+    indeces = np.arange(SAMPLE_SIZE)
+    X_train, X_val, y_train, y_val, Idx_train, Idx_val = train_test_split(X, y, indeces, test_size=TEST_SIZE, stratify=y, random_state=RANDOM_STATE)
+
+
 
     training_steps_per_epoch = X_train.shape[0]/BATCH_SIZE
     total_training_steps = EPOCHS * training_steps_per_epoch
@@ -129,3 +136,13 @@ if __name__ == '__main__':
     plot_precision_recall_accuracy(history, total_training_steps)
 
     model.save(model_name)
+
+
+    conv2D_layers = [layer.name for layer in reversed(model.layers) if len(layer.output_shape) == 4 and isinstance(layer, tf.keras.layers.Conv2D)]
+    activation_layers = [layer.name for layer in reversed(model.layers) if len(layer.output_shape) == 4 and layer.__class__.__name__ == 'ReLU']
+    all_layers = [layer.name for layer in reversed(model.layers) if len(layer.output_shape) == 4 and (layer.__class__.__name__ == 'ReLU' or isinstance(layer, tf.keras.layers.Conv2D))]
+
+
+    img_path = '../cats-dogs-data/cat_539.png'
+
+    predict_and_interpret(img_path, model, 'baseline', all_layers)

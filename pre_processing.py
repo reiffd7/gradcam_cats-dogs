@@ -29,11 +29,11 @@ def process_data(dir, dog_image_list, cat_image_lst, IMG_SIZE):
   return data_df
 
 
-def manual_pre_process(dir, IMG_SIZE, isTrain=True):
-  # dog_image_lst = [file for file in os.listdir(dir) if 'dog' in file][:int(SAMPLE_SIZE/2)]
-  # cat_image_lst = [file for file in os.listdir(dir) if 'cat' in file][:int(SAMPLE_SIZE/2)]
-  dog_image_lst = [file for file in os.listdir(dir) if 'dog' in file]
-  cat_image_lst = [file for file in os.listdir(dir) if 'cat' in file]
+def manual_pre_process(dir, IMG_SIZE, SAMPLE_SIZE, isTrain=True):
+  dog_image_lst = [file for file in os.listdir(dir) if 'dog' in file][:int(SAMPLE_SIZE/2)]
+  cat_image_lst = [file for file in os.listdir(dir) if 'cat' in file][:int(SAMPLE_SIZE/2)]
+  # dog_image_lst = [file for file in os.listdir(dir) if 'dog' in file]
+  # cat_image_lst = [file for file in os.listdir(dir) if 'cat' in file]
   data_df = process_data(dir, dog_image_lst, cat_image_lst, IMG_SIZE)
   X = np.array([i[0] for i in data_df]).reshape(-1, IMG_SIZE, IMG_SIZE, 3)
   y = np.array([i[1] for i in data_df])
