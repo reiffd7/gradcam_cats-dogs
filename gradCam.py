@@ -150,7 +150,7 @@ def predict_and_interpret(img_path, model,sample_size, model_name, layer_lst):
   # plt.title(pred_label + ' ' + str(pred_raw))
   # ax = plt.subplot(1, 2, 2)
   fused = fuse_layers(layer_lst, model, img)
-  fileID = img_path.split('/')[3].split('.')[0]
+  fileID = img_path.split('/')[2].split('.')[0]
   plt.imshow(fused)
   plt.axis('off')
   #title = cat_pct + ' Cat - ' + str(model_name) + ' extra training imgs'
