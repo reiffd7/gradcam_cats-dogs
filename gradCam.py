@@ -130,7 +130,7 @@ def decode_prediction(pred):
   pred = tf.where(pred < 0.5, 0, 1)
   return pred.numpy()
 
-def predict_and_interpret(img_path, model, model_name, layer_lst):
+def predict_and_interpret(img_path, model,sample_size, model_name, layer_lst):
   class_info = {0: 'Cat', 1: 'Dog'}
 
   img = cv2.imread(img_path)
@@ -158,4 +158,4 @@ def predict_and_interpret(img_path, model, model_name, layer_lst):
 
   # plt.title('block_4_expand_relu')
   plt.tight_layout()
-  plt.savefig('CAMs/' + fileID + str(model_name) + '_gradCAM.png')
+  plt.savefig('CAMs/' + fileID + 'sample_' + str(sample_size) +  '_' + str(model_name) + '_gradCAM.png')

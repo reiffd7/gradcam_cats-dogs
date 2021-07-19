@@ -149,7 +149,7 @@ if __name__ == '__main__':
         all_layers = [layer.name for layer in reversed(model.layers) if len(layer.output_shape) == 4 and (layer.__class__.__name__ == 'ReLU' or isinstance(layer, tf.keras.layers.Conv2D))]
 
 
-        img_path = '../cats-dogs-data/cat_cage_7.png'
+        img_path = '../cats-dogs-data/cat_cage_7.jpeg'
         
         model_type = AUG_SAMPLE_SIZE
         
