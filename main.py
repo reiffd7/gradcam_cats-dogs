@@ -9,6 +9,8 @@ from modeling import *
 from pre_processing import *
 from gradCam import *
 from sklearn.model_selection import train_test_split
+from sklearn.utils import shuffle
+
 
 def plot_precision_recall_accuracy(history, total_training_steps):
     val_precision = history.history['val_precision_m']
@@ -33,7 +35,7 @@ if __name__ == '__main__':
     ##  5 - Project Name
     ##  6- Task Name
     BATCH_SIZE = 25
-    EPOCHS = 25
+    EPOCHS = 100
     DATA_PATH = '../cats-dogs-data/train'
     AUG_PATH = '../cats-dogs-data/data_aug_transporters'
     # VAL_PATH = '../cats-dogs-data/val_1000'
@@ -44,10 +46,11 @@ if __name__ == '__main__':
     IMG_SIZE = (224, 224, 3)
     TEST_SIZE = 0.2
     RANDOM_STATE = 2018
-    X, y, files = manual_pre_process(DATA_PATH, 224, DATA_SAMPLE_SIZE)
+    data_dir = AUG_PATH
+    X, y, files = manual_pre_process(data_dir, 224, DATA_SAMPLE_SIZE)
     # indeces = np.arange(DATA_SAMPLE_SIZE + AUG_SAMPLE_SIZE)
     X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=TEST_SIZE, stratify=y, random_state=RANDOM_STATE)
-    aug_samples = [0, 50, 100, 150, 200, 250]
+    aug_samples = [0]
     for sample in aug_samples:
         AUG_SAMPLE_SIZE = sample
         X_aug, y_aug, files_aug = manual_pre_process(AUG_PATH, 224, AUG_SAMPLE_SIZE)
@@ -62,7 +65,8 @@ if __name__ == '__main__':
 
         X_to_train = np.concatenate((X_train, X_aug))
         y_to_train = np.concatenate((y_train, y_aug))
-        
+        X_to_train, y_to_train = shuffle(X_to_train, y_to_train)
+
 
 
 
