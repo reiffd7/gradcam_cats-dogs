@@ -41,28 +41,32 @@ if __name__ == '__main__':
     PROJECT_NAME = 'caged_cats_model_improvement'
 
     DATA_SAMPLE_SIZE = 1000
+    IMG_SIZE = (224, 224, 3)
+    TEST_SIZE = 0.2
+    RANDOM_STATE = 2018
+    X, y, files = manual_pre_process(DATA_PATH, 224, DATA_SAMPLE_SIZE)
+    # indeces = np.arange(DATA_SAMPLE_SIZE + AUG_SAMPLE_SIZE)
+    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=TEST_SIZE, stratify=y, random_state=RANDOM_STATE)
     aug_samples = [0, 20, 40, 60, 80, 100]
     for sample in aug_samples:
         AUG_SAMPLE_SIZE = sample
-
+        X_aug, y_aug, files_aug = manual_pre_process(AUG_PATH, 224, AUG_SAMPLE_SIZE)
+        
         TASK_NAME = BASE_MODEL_NAME + 'sample_size' + str(DATA_SAMPLE_SIZE) + 'aug' + str(AUG_SAMPLE_SIZE) + 'batch' + str(BATCH_SIZE) + 'epochs' + str(EPOCHS)
-
-        IMG_SIZE = (224, 224, 3)
-        TEST_SIZE = 0.2
-        RANDOM_STATE = 2018
         DROPOUT_RATE = 0.1
         LEARNING_RATE = 0.0001
 
         model_name = 'models/{}_epochs{}_batch{}_sample_size{}_aug_{}.h5'.format(BASE_MODEL_NAME, EPOCHS, BATCH_SIZE, DATA_SAMPLE_SIZE, AUG_SAMPLE_SIZE)
         class_info = {0: 'Cat', 1: 'Dog'}
 
-        X, y, files = manual_pre_process(DATA_PATH, AUG_PATH, 224, DATA_SAMPLE_SIZE, AUG_SAMPLE_SIZE)
-        indeces = np.arange(DATA_SAMPLE_SIZE + AUG_SAMPLE_SIZE)
-        X_train, X_val, y_train, y_val, Idx_train, Idx_val = train_test_split(X, y, indeces, test_size=TEST_SIZE, stratify=y, random_state=RANDOM_STATE)
+
+        X_to_train = np.concatenate((X_train, X_aug))
+        y_to_train = np.concatenate((y_train, y_aug))
+        
 
 
 
-        training_steps_per_epoch = X_train.shape[0]/BATCH_SIZE
+        training_steps_per_epoch = X_to_train.shape[0]/BATCH_SIZE
         total_training_steps = EPOCHS * training_steps_per_epoch
 
         print('Training Steps per Epoch: {}'.format(training_steps_per_epoch))
@@ -81,7 +85,7 @@ if __name__ == '__main__':
         #     # A.HueSaturationValue(p=0.6)
         # ])
 
-        train_gen = DatasetSequence(X_train, y_train, BATCH_SIZE)
+        train_gen = DatasetSequence(X_to_train, y_to_train, BATCH_SIZE)
         valid_gen = DatasetSequence(X_val, y_val, BATCH_SIZE)
 
         input_shape = IMG_SIZE
@@ -137,7 +141,7 @@ if __name__ == '__main__':
 
         plot_precision_recall_accuracy(history, total_training_steps)
 
-        model.save(model_name)
+        # model.save(model_name)
 
 
         conv2D_layers = [layer.name for layer in reversed(model.layers) if len(layer.output_shape) == 4 and isinstance(layer, tf.keras.layers.Conv2D)]
