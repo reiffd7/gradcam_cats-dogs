@@ -153,9 +153,9 @@ if __name__ == '__main__':
         all_layers = [layer.name for layer in reversed(model.layers) if len(layer.output_shape) == 4 and (layer.__class__.__name__ == 'ReLU' or isinstance(layer, tf.keras.layers.Conv2D))]
 
         img_paths = os.listdir('../cats-dogs-data/Cats&DogsTransporters')
-        for img_path in img_paths:
+        for file in img_paths:
         # img_path = '../cats-dogs-data/cat_cage_7.jpeg'
-        
+            img_path = '../cats-dogs-data/Cats&DogsTransporters/' + file
             model_type = AUG_SAMPLE_SIZE
             
 
