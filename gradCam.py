@@ -154,7 +154,7 @@ def predict_and_interpret(img_path, model,sample_size, model_name, layer_lst):
   plt.imshow(fused)
   plt.axis('off')
   #title = cat_pct + ' Cat - ' + str(model_name) + ' extra training imgs'
-  title = cat_pct + ' Cat - Kaggle Training Set'
+  title = cat_pct + ' Cat - Kaggle Training Set + ' + str(model_name)
   plt.title(title)
 
   # plt.title('block_4_expand_relu')

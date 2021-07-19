@@ -35,14 +35,14 @@ if __name__ == '__main__':
     ##  5 - Project Name
     ##  6- Task Name
     BATCH_SIZE = 25
-    EPOCHS = 100
+    EPOCHS = 50
     DATA_PATH = '../cats-dogs-data/train'
     AUG_PATH = '../cats-dogs-data/data_aug_transporters'
     # VAL_PATH = '../cats-dogs-data/val_1000'
     BASE_MODEL_NAME = 'mobilenetv2'
     PROJECT_NAME = 'caged_cats_model_improvement'
 
-    DATA_SAMPLE_SIZE = 992
+    DATA_SAMPLE_SIZE = 1000
     IMG_SIZE = (224, 224, 3)
     TEST_SIZE = 0.2
     RANDOM_STATE = 2018
@@ -50,9 +50,9 @@ if __name__ == '__main__':
     X, y, files = manual_pre_process(data_dir, 224, DATA_SAMPLE_SIZE)
     # indeces = np.arange(DATA_SAMPLE_SIZE + AUG_SAMPLE_SIZE)
     X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=TEST_SIZE, stratify=y, random_state=RANDOM_STATE)
-    aug_samples = [0]
+    aug_samples = [0, 0.25, 0.50, 0.75, 1.0]
     for sample in aug_samples:
-        AUG_SAMPLE_SIZE = sample
+        AUG_SAMPLE_SIZE = 992 * sample
         X_aug, y_aug, files_aug = manual_pre_process(AUG_PATH, 224, AUG_SAMPLE_SIZE)
         
         TASK_NAME = BASE_MODEL_NAME + 'sample_size' + str(DATA_SAMPLE_SIZE) + 'aug' + str(AUG_SAMPLE_SIZE) + 'batch' + str(BATCH_SIZE) + 'epochs' + str(EPOCHS)
