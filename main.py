@@ -42,11 +42,11 @@ if __name__ == '__main__':
     BASE_MODEL_NAME = 'mobilenetv2'
     PROJECT_NAME = 'caged_cats_model_improvement'
 
-    DATA_SAMPLE_SIZE = 1500
+    DATA_SAMPLE_SIZE = 992
     IMG_SIZE = (224, 224, 3)
     TEST_SIZE = 0.2
     RANDOM_STATE = 2018
-    data_dir = AUG_PATH
+    data_dir = DATA_PATH
     X, y, files = manual_pre_process(data_dir, 224, DATA_SAMPLE_SIZE)
     # indeces = np.arange(DATA_SAMPLE_SIZE + AUG_SAMPLE_SIZE)
     X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=TEST_SIZE, stratify=y, random_state=RANDOM_STATE)
