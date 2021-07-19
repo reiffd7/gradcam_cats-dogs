@@ -35,7 +35,7 @@ if __name__ == '__main__':
     BATCH_SIZE = 25
     EPOCHS = 25
     DATA_PATH = '../cats-dogs-data/train'
-    AUG_PATH = '../cats-dogs-data/data_aug'
+    AUG_PATH = '../cats-dogs-data/data_aug_transporters'
     # VAL_PATH = '../cats-dogs-data/val_1000'
     BASE_MODEL_NAME = 'mobilenetv2'
     PROJECT_NAME = 'caged_cats_model_improvement'
@@ -149,9 +149,9 @@ if __name__ == '__main__':
         all_layers = [layer.name for layer in reversed(model.layers) if len(layer.output_shape) == 4 and (layer.__class__.__name__ == 'ReLU' or isinstance(layer, tf.keras.layers.Conv2D))]
 
 
-        img_path = '../cats-dogs-data/cat_539.png'
+        img_path = '../cats-dogs-data/cat_cage_7.png'
         
         model_type = AUG_SAMPLE_SIZE
         
 
-        predict_and_interpret(img_path, model, model_type, all_layers)
+        predict_and_interpret(img_path, model, DATA_SAMPLE_SIZE, model_type, all_layers)
