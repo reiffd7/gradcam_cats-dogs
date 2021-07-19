@@ -121,7 +121,7 @@ def fuse_layers(layers, model, img):
     cams.append(cam)
 
   fused = np.mean(cams, axis=0)
-  superimposed = superimpose(img, fused, 0.5, emphasize=True)
+  superimposed = superimpose(img, fused, 0.5, emphasize=False)
 
   return superimposed
 
