@@ -43,30 +43,24 @@ if __name__ == '__main__':
     PROJECT_NAME = 'caged_cats_model_improvement'
 
     DATA_SAMPLE_SIZE = 2000
-    data_samples = [1000]
+    aug_samples = [0, 0.25, 0.50, 0.75, 1.0]
     IMG_SIZE = (224, 224, 3)
     TEST_SIZE = 0.2
     RANDOM_STATE = 2018
-    data_dir = AUG_PATH
-    # X, y, files = manual_pre_process(data_dir, 224, DATA_SAMPLE_SIZE)
-    # # indeces = np.arange(DATA_SAMPLE_SIZE + AUG_SAMPLE_SIZE)
-    # X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=TEST_SIZE, stratify=y, random_state=RANDOM_STATE)
-    aug_sample = 0.0
-    for sample in data_samples:
-        DATA_SAMPLE_SIZE = sample
-        AUG_SAMPLE_SIZE = 992 * aug_sample
-
-        X, y, files = manual_pre_process(data_dir, 224, DATA_SAMPLE_SIZE)
-        # indeces = np.arange(DATA_SAMPLE_SIZE + AUG_SAMPLE_SIZE)
-        X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=TEST_SIZE, stratify=y, random_state=RANDOM_STATE)
-
+    data_dir = DATA_PATH
+    X, y, files = manual_pre_process(data_dir, 224, DATA_SAMPLE_SIZE)
+    # indeces = np.arange(DATA_SAMPLE_SIZE + AUG_SAMPLE_SIZE)
+    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=TEST_SIZE, stratify=y, random_state=RANDOM_STATE)
+    # aug_sample = 0.0
+    for sample in aug_samples:
+        AUG_SAMPLE_SIZE = 992 * sample
         X_aug, y_aug, files_aug = manual_pre_process(AUG_PATH, 224, AUG_SAMPLE_SIZE)
         
         TASK_NAME = BASE_MODEL_NAME + 'sample_size' + str(DATA_SAMPLE_SIZE) + 'aug' + str(AUG_SAMPLE_SIZE) + 'batch' + str(BATCH_SIZE) + 'epochs' + str(EPOCHS)
         DROPOUT_RATE = 0.1
         LEARNING_RATE = 0.0001
 
-        model_name = 'models/{}_epochs{}_batch{}_sample_size{}_aug_{}.h5'.format(BASE_MODEL_NAME, EPOCHS, BATCH_SIZE, 0, 992)
+        model_name = 'models/{}_epochs{}_batch{}_sample_size{}_aug_{}.h5'.format(BASE_MODEL_NAME, EPOCHS, BATCH_SIZE, DATA_SAMPLE_SIZE, AUG_SAMPLE_SIZE)
         class_info = {0: 'Cat', 1: 'Dog'}
 
 
@@ -150,7 +144,7 @@ if __name__ == '__main__':
                             validation_data=valid_gen,
                             callbacks=[lr_sched])
 
-        plot_precision_recall_accuracy(history, total_training_steps)
+        # plot_precision_recall_accuracy(history, total_training_steps)
 
         model.save(model_name)
 
@@ -160,7 +154,7 @@ if __name__ == '__main__':
         all_layers = [layer.name for layer in reversed(model.layers) if len(layer.output_shape) == 4 and (layer.__class__.__name__ == 'ReLU' or isinstance(layer, tf.keras.layers.Conv2D))]
         img_path = '../cats-dogs-data/cat_cage_7.jpeg'
         model_type = AUG_SAMPLE_SIZE
-        # predict_and_interpret(img_path, model, DATA_SAMPLE_SIZE, model_type, all_layers[:10])
+        predict_and_interpret(img_path, model, DATA_SAMPLE_SIZE, model_type, all_layers[:10])
         # img_paths = os.listdir('../cats-dogs-data/Cats&DogsTransporters')
         # for file in img_paths:
         # # img_path = '../cats-dogs-data/cat_cage_7.jpeg'
