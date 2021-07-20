@@ -10,7 +10,7 @@ from pre_processing import *
 from gradCam import *
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
-
+import os
 
 def plot_precision_recall_accuracy(history, total_training_steps):
     val_precision = history.history['val_precision_m']
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     # VAL_PATH = '../cats-dogs-data/val_1000'
     BASE_MODEL_NAME = 'mobilenetv2'
     PROJECT_NAME = 'caged_cats_model_improvement'
-
+    AUG_SAMPLES = len(os.listdir(AUG_PATH))
     DATA_SAMPLE_SIZE = 2000
     aug_samples = [0, 0.25, 0.50, 0.75, 1.0]
     IMG_SIZE = (224, 224, 3)
@@ -53,7 +53,7 @@ if __name__ == '__main__':
     X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=TEST_SIZE, stratify=y, random_state=RANDOM_STATE)
     # aug_sample = 0.0
     for sample in aug_samples:
-        AUG_SAMPLE_SIZE = 992 * sample
+        AUG_SAMPLE_SIZE = AUG_SAMPLES * sample
         X_aug, y_aug, files_aug = manual_pre_process(AUG_PATH, 224, AUG_SAMPLE_SIZE)
         
         TASK_NAME = BASE_MODEL_NAME + 'sample_size' + str(DATA_SAMPLE_SIZE) + 'aug' + str(AUG_SAMPLE_SIZE) + 'batch' + str(BATCH_SIZE) + 'epochs' + str(EPOCHS)
